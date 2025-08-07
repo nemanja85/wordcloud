@@ -1,6 +1,8 @@
-import { useReducer, useEffect } from 'react';
-import {  type TopicAction, type TopicState } from './types';
+import { useEffect, useReducer } from 'react';
+import { InfoTopicComponent } from './components/InfoTopicComponent';
+import { WordCloudComponent } from './components/WordCloudComponent';
 import './index.css';
+import { type TopicAction, type TopicState } from './types';
 
 
 const initialState: TopicState = {
@@ -10,7 +12,7 @@ const initialState: TopicState = {
   error: null,
 };
 
-function appReducer(state: TopicAction, action: TopicAction): TopicState {
+function appReducer(state, action): TopicAction {
   switch (action.type) {
     case 'SET_TOPICS':
       return { ...state, topics: action.payload };
@@ -27,7 +29,7 @@ function appReducer(state: TopicAction, action: TopicAction): TopicState {
 function App() {
 
     const [state, dispatch] = useReducer(appReducer, initialState);
-    const {  loading, error } = state;
+    const { topics, selectedTopic, loading, error } = state;
 
       useEffect(() => {
         const fetchTopics = async () => {
@@ -36,7 +38,7 @@ function App() {
           try {
             const response = await fetch('/topics.json');
             if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
+              throw new Error(`Error status: ${response.status}`);
             }
             const data = await response.json();
             if (data && Array.isArray(data.topics)) {
@@ -60,7 +62,7 @@ function App() {
 
       if (loading) {
         return (
-          <div className="flex items-center justify-center min-h-screen bg-gray-100 font-inter">
+          <div className="flex items-center justify-center min-h-screen">
             <p className="text-gray-700 text-lg">Loading topics...</p>
           </div>
         );
@@ -68,7 +70,7 @@ function App() {
 
       if (error) {
         return (
-          <div className="flex items-center justify-center min-h-screen bg-red-100 text-red-800 p-4 rounded-lg font-inter">
+          <div className="flex items-center justify-center min-h-screen text-red-500 p-4">
             <p className="text-lg">{error}</p>
           </div>
         );
@@ -76,31 +78,11 @@ function App() {
 
   return (
     <>
-      <div className="w-full relative flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 font-inter md:flex-row">
-        <div className='flex flex-col justify-between'>
-          <h1 className="text-xl font-bold text-black mb-8">Topic Word Cloud</h1>
-        </div>
-        <div className="w-xl bg-opacity-50 p-4">
-          <div className=" bg-white rounded-lg shadow-lg p-6 md:p-8 md:max-w-2xl animate-fade-in-up">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b pb-2"></h2>
-            <div className="space-y-2 text-gray-700">
-              <p>
-                <span className="font-semibold">Total Mentions:</span>
-              </p>
-              <p>
-                <span className="font-semibold">Positive Mentions:</span>
-              </p>
-              <p>
-                <span className="font-semibold">Neutral Mentions:</span>
-              </p>
-              <p>
-                <span className="font-semibold">Negative Mentions:</span>
-              </p>
-            </div>
-            <button className="mt-6 w-full bg-blue-800 text-white uppercase cursor-pointer py-2 px-4 rounded-md hover:bg-blue-500">
-              Submit
-            </button>
-          </div>
+      <div className="w-full relative flex flex-col justify-center items-center min-h-screen p-4">
+        <h1 className="text-5xl leading-0.5 font-normal text-black mb-20">My Topics Challenge</h1>
+        <div className="flex flex-col justify-between lg:flex-row">
+          <WordCloudComponent topics={topics} dispatch={dispatch} />
+          { selectedTopic && <InfoTopicComponent selectedTopic={selectedTopic} dispatch={dispatch} /> }
         </div>
       </div>
     </>
