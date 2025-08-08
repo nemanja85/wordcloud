@@ -4,13 +4,16 @@ export const InfoTopicComponent = ({
 	selectedTopic,
 	dispatch,
 }: InfoTopicProps) => {
-	let sentimentColorClass = "text-gray-700";
-	if (selectedTopic?.sentimentScore > 60) {
-		sentimentColorClass = "text-green-500";
-	} else if (selectedTopic?.sentimentScore < 40) {
-		sentimentColorClass = "text-red-500";
+	if (!selectedTopic) {
+		return null;
 	}
 
+	const sentimentColorClass =
+		selectedTopic.sentimentScore > 60
+			? "text-green-500"
+			: selectedTopic.sentimentScore < 40
+				? "text-gray-700"
+				: "text-red-500";
 	return (
 		<div className=" flex items-center justify-center p-4">
 			<div className="p-6 md:p-8 w-lg">

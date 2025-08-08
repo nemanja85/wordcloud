@@ -11,7 +11,7 @@ const initialState: TopicState = {
 	error: null,
 };
 
-function appReducer(state, action): TopicAction {
+function appReducer(state, action: TopicAction): TopicAction {
 	switch (action.type) {
 		case "SET_TOPICS":
 			return { ...state, topics: action.payload };

@@ -30,12 +30,12 @@ export const WordCloudComponent = ({ topics, dispatch }: WordCloudProps) => {
 					);
 			}
 
-			let colorClass = "text-gray-700";
-			if (topic.sentimentScore > 60) {
-				colorClass = "text-green-500";
-			} else if (topic.sentimentScore < 40) {
-				colorClass = "text-red-500";
-			}
+			const colorClass =
+				topic.sentimentScore > 60
+					? "text-green-500"
+					: topic.sentimentScore < 40
+						? "text-gray-700"
+						: "text-red-500";
 
 			const fontSizeClass = fontSizeClasses[fontSize - 1];
 
