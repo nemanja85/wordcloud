@@ -51,7 +51,7 @@ export const WordCloudComponent = ({ topics, dispatch }: WordCloudProps) => {
 	}, [topics]);
 
 	return (
-		<div className="w-full max-w-4xl h-[300px] p-4 flex flex-wrap items-center justify-center lg:h-[200px]">
+		<div className="w-full max-w-4xl h-[500px] p-4 flex flex-wrap items-center justify-center lg:h-[200px]">
 			{wordCloudData.length > 0 ? (
 				wordCloudData.map((data, index) => (
 					<span

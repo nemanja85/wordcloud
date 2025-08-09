@@ -5,12 +5,6 @@ export const InfoTopicComponent = ({ selectedTopic }: InfoTopicProps) => {
 		return null;
 	}
 
-	const sentimentColorClass =
-		selectedTopic.sentimentScore > 60
-			? "text-green-500"
-			: selectedTopic.sentimentScore < 40
-				? "text-gray-700"
-				: "text-red-500";
 	return (
 		<div className=" flex items-center justify-center p-4">
 			<div className="p-6 md:p-8 w-lg">
@@ -21,11 +15,19 @@ export const InfoTopicComponent = ({ selectedTopic }: InfoTopicProps) => {
 				<div className="space-y-2 text-gray-700">
 					<p className="mb-10">
 						<span>Total Mentions: </span>
-						<span className={sentimentColorClass}>{selectedTopic?.volume}</span>
+						<span>{selectedTopic?.volume}</span>
 					</p>
 					<p>
 						<span>Positive Mentions: </span>
-						<span>{selectedTopic?.sentiment.positive}</span>
+						<span
+							className={
+								selectedTopic.sentimentScore > 60
+									? "text-green-500"
+									: "text-gray-700"
+							}
+						>
+							{selectedTopic?.sentiment.positive}
+						</span>
 					</p>
 					<p>
 						<span>Neutral Mentions: </span>
@@ -33,7 +35,15 @@ export const InfoTopicComponent = ({ selectedTopic }: InfoTopicProps) => {
 					</p>
 					<p>
 						<span>Negative Mentions: </span>
-						<span>{selectedTopic?.sentiment.negative}</span>
+						<span
+							className={
+								selectedTopic.sentimentScore < 60
+									? "text-gray-700"
+									: "text-red-500"
+							}
+						>
+							{selectedTopic?.sentiment.negative}
+						</span>
 					</p>
 				</div>
 			</div>
