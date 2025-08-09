@@ -1,9 +1,6 @@
 import { type InfoTopicProps } from "../types";
 
-export const InfoTopicComponent = ({
-	selectedTopic,
-	dispatch,
-}: InfoTopicProps) => {
+export const InfoTopicComponent = ({ selectedTopic }: InfoTopicProps) => {
 	if (!selectedTopic) {
 		return null;
 	}
@@ -17,7 +14,7 @@ export const InfoTopicComponent = ({
 	return (
 		<div className=" flex items-center justify-center p-4">
 			<div className="p-6 md:p-8 w-lg">
-				<p className="text-xl font-normal text-gray-800 mb-4 pb-2">
+				<p className="text-xl font-normal text-gray-700 mb-4 pb-2">
 					<span>Information on topic: </span>
 					<strong>{selectedTopic?.label}</strong>
 				</p>

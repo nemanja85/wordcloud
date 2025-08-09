@@ -9,19 +9,25 @@ const initialState: TopicState = {
 	selectedTopic: null,
 	loading: true,
 	error: null,
+	type: null,
 };
 
-function appReducer(state, action: TopicAction): TopicAction {
+function appReducer(state: TopicAction, action: TopicAction): TopicState {
 	switch (action.type) {
 		case "SET_TOPICS":
+			//@ts-ignore
 			return { ...state, topics: action.payload };
 		case "SET_SELECTED_TOPIC":
+			//@ts-ignore
 			return { ...state, selectedTopic: action.payload };
 		case "SET_LOADING":
+			//@ts-ignore
 			return { ...state, loading: action.payload };
 		case "SET_ERROR":
+			//@ts-ignore
 			return { ...state, error: action.payload };
 		default:
+			//@ts-ignore
 			return state;
 	}
 }
@@ -30,7 +36,7 @@ function App() {
 	const { topics, selectedTopic, loading, error } = state;
 
 	useEffect(() => {
-		const fetchTopics = async () => {
+		const getTopics = async () => {
 			dispatch({ type: "SET_LOADING", payload: true });
 			dispatch({ type: "SET_ERROR", payload: null });
 			try {
@@ -39,23 +45,22 @@ function App() {
 					throw new Error(`Error status: ${response.status}`);
 				}
 				const data = await response.json();
-				if (data && Array.isArray(data.topics)) {
-					dispatch({ type: "SET_TOPICS", payload: data.topics });
-				} else {
-					throw new Error("Topic not found.");
-				}
+				data && Array.isArray(data.topics)
+					? dispatch({ type: "SET_TOPICS", payload: data.topics })
+					: (() => {
+							throw new Error("Data not found.");
+						})();
 			} catch (err) {
 				dispatch({
 					type: "SET_ERROR",
-					payload: "Failed to load data!",
+					payload: "Data loading failed.",
 				});
-				console.error(err);
 			} finally {
 				dispatch({ type: "SET_LOADING", payload: false });
 			}
 		};
 
-		fetchTopics();
+		getTopics();
 	}, []);
 
 	if (loading) {
@@ -77,16 +82,13 @@ function App() {
 	return (
 		<>
 			<div className="w-full relative flex flex-col justify-center items-center min-h-screen p-4">
-				<h1 className="text-5xl leading-0.5 font-normal text-black mb-20">
+				<h1 className="text-5xl leading-0.5 font-normal text-gray-700 mb-20">
 					My Topics Challenge
 				</h1>
 				<div className="flex flex-col justify-between lg:flex-row">
 					<WordCloudComponent topics={topics} dispatch={dispatch} />
 					{selectedTopic && (
-						<InfoTopicComponent
-							selectedTopic={selectedTopic}
-							dispatch={dispatch}
-						/>
+						<InfoTopicComponent selectedTopic={selectedTopic} />
 					)}
 				</div>
 			</div>

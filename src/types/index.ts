@@ -18,6 +18,7 @@ export type Topic = {
 };
 
 export type TopicAction =
+	| TopicState
 	| SetTopicsOptions
 	| SetSelectedOptions
 	| SetLoadingOptions
@@ -28,11 +29,11 @@ export type TopicState = {
 	selectedTopic: Topic | null;
 	loading: boolean;
 	error: string | null;
+	type: string | null;
 };
 
 export type InfoTopicProps = {
 	selectedTopic: Topic | null;
-	dispatch: React.Dispatch<TopicAction>;
 };
 
 export type WordData = {

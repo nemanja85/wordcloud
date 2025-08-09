@@ -5,7 +5,7 @@ export const WordCloudComponent = ({ topics, dispatch }: WordCloudProps) => {
 	const wordCloudData: WordData[] = useMemo(() => {
 		if (topics.length === 0) return [];
 
-		const volumes = topics.map((t) => t.volume);
+		const volumes = topics.map((topic) => topic.volume);
 		const minVolume = Math.min(...volumes);
 		const maxVolume = Math.max(...volumes);
 		const numTiers = 5;
@@ -56,7 +56,7 @@ export const WordCloudComponent = ({ topics, dispatch }: WordCloudProps) => {
 				wordCloudData.map((data, index) => (
 					<span
 						key={index}
-						className={`m-2 cursor-pointer transition-opacity duration-200 ${data.colorClass} ${data.fontSizeClass}`}
+						className={`m-4 cursor-pointer transition-opacity duration-200 ${data.colorClass} ${data.fontSizeClass}`}
 						onClick={() =>
 							dispatch({ type: "SET_SELECTED_TOPIC", payload: data.topicData })
 						}
@@ -65,7 +65,7 @@ export const WordCloudComponent = ({ topics, dispatch }: WordCloudProps) => {
 					</span>
 				))
 			) : (
-				<p className="text-gray-500 text-lg">No topics to display.</p>
+				<p className="text-gray-700 text-lg">No topics to display.</p>
 			)}
 		</div>
 	);
